@@ -16,20 +16,22 @@
   <meta name="author" content="sunnylala">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Paxos角色Paxos将系统中的角色分为提议者 (Proposer)，决策者 (Acceptor)，和最终决策学习者 (Learner):  Proposer: 提出提案 (Proposal)。Proposal信息包括提案编号 (Proposal ID) 和提议的值 (Value)。 Acceptor: 参与决策，回应Proposers的提案。收到Proposal后可以接受提案，若Proposa">
+    <meta name="description" content="Paxos &amp; Raft &amp; ZABPaxos角色Paxos将系统中的角色分为提议者 (Proposer)，决策者 (Acceptor)，和最终决策学习者 (Learner):  Proposer: 提出提案 (Proposal)。Proposal信息包括提案编号 (Proposal ID) 和提议的值 (Value)。 Acceptor: 参与决策，回应Proposers的提案。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式算法">
 <meta property="og:url" content="https://sunnylala.github.io/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="瀚宇求索">
-<meta property="og:description" content="Paxos角色Paxos将系统中的角色分为提议者 (Proposer)，决策者 (Acceptor)，和最终决策学习者 (Learner):  Proposer: 提出提案 (Proposal)。Proposal信息包括提案编号 (Proposal ID) 和提议的值 (Value)。 Acceptor: 参与决策，回应Proposers的提案。收到Proposal后可以接受提案，若Proposa">
+<meta property="og:description" content="Paxos &amp; Raft &amp; ZABPaxos角色Paxos将系统中的角色分为提议者 (Proposer)，决策者 (Acceptor)，和最终决策学习者 (Learner):  Proposer: 提出提案 (Proposal)。Proposal信息包括提案编号 (Proposal ID) 和提议的值 (Value)。 Acceptor: 参与决策，回应Proposers的提案。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sunnylala.github.io/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE1.png">
+<meta property="og:image" content="https://sunnylala.github.io/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE2.png">
 <meta property="og:image" content="https://sunnylala.github.io/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE3.png">
 <meta property="article:published_time" content="2023-08-17T10:26:50.000Z">
-<meta property="article:modified_time" content="2023-08-17T10:34:32.422Z">
+<meta property="article:modified_time" content="2023-08-17T10:46:30.317Z">
 <meta property="article:author" content="sunnylala">
 <meta property="article:tag" content="分布式">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://sunnylala.github.io/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE3.png">
+<meta name="twitter:image" content="https://sunnylala.github.io/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE1.png">
   
   
   
@@ -262,7 +264,7 @@
         
         
         
-          19 分钟
+          20 分钟
         
       </span>
     
@@ -312,14 +314,14 @@
             
               <div class="markdown-body">
                 
-                <h2 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h2><h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><p>Paxos将系统中的角色分为提议者 (Proposer)，决策者 (Acceptor)，和最终决策学习者 (Learner):</p>
+                <h1 id="Paxos-Raft-ZAB"><a href="#Paxos-Raft-ZAB" class="headerlink" title="Paxos &amp; Raft &amp; ZAB"></a>Paxos &amp; Raft &amp; ZAB</h1><h2 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h2><h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><p>Paxos将系统中的角色分为提议者 (Proposer)，决策者 (Acceptor)，和最终决策学习者 (Learner):</p>
 <ul>
 <li>Proposer: 提出提案 (Proposal)。Proposal信息包括提案编号 (Proposal ID) 和提议的值 (Value)。</li>
 <li>Acceptor: 参与决策，回应Proposers的提案。收到Proposal后可以接受提案，若Proposal获得多数Acceptors的接受，则称该Proposal被批准。</li>
 <li>Learner: 不参与决策，从Proposers&#x2F;Acceptors学习最新达成一致的提案(Value)。</li>
 </ul>
 <p>在多副本状态机中，每个副本同时具有Proposer、Acceptor、Learner三种角色。</p>
-
+<img src="/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE1.png" srcset="/img/loading.gif" lazyload class="" title="你好世界">
 
 <h3 id="第一阶段-Prepare阶段"><a href="#第一阶段-Prepare阶段" class="headerlink" title="第一阶段: Prepare阶段"></a>第一阶段: Prepare阶段</h3><p>Proposer向Acceptors发出Prepare请求，Acceptors针对收到的Prepare请求进行Promise承诺。</p>
 <p>Prepare: Proposer生成全局唯一且递增的Proposal ID (可使用时间戳加Server ID)，向所有Acceptors发送Prepare请求，这里无需携带提案内容，只携带Proposal ID即可。</p>
@@ -331,7 +333,7 @@
 <p>Propose: Proposer 收到多数Acceptors的Promise应答后，从应答中选择Proposal ID最大的提案的Value，作为本次要发起的提案。如果所有应答的提案Value均为空值，则可以自己随意决定提案Value。然后携带当前Proposal ID，向所有Acceptors发送Propose请求。</p>
 <p>Accept: Acceptor收到Propose请求后，在不违背自己之前作出的承诺下，接受并持久化当前Proposal ID和提案Value。</p>
 <h3 id="第三阶段-Learn阶段"><a href="#第三阶段-Learn阶段" class="headerlink" title="第三阶段: Learn阶段"></a>第三阶段: Learn阶段</h3><p>Proposer在收到多数Acceptors的Accept之后，标志着本次Accept成功，决议形成，将形成的决议发送给所有Learners。</p>
-<h2 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h2><h3 id="角色-1"><a href="#角色-1" class="headerlink" title="角色"></a>角色</h3>
+<h2 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h2><h3 id="角色-1"><a href="#角色-1" class="headerlink" title="角色"></a>角色</h3><img src="/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE2.png" srcset="/img/loading.gif" lazyload class="" title="你好世界">
 
 <p>Raft将系统中的角色分为领导者(Leader)、跟从者(Follower)和候选人(Candidate):</p>
 <ul>

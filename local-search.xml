@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>分布式算法</title>
+    <link href="/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"/>
+    <url>/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h2><h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><p>Paxos将系统中的角色分为提议者 (Proposer)，决策者 (Acceptor)，和最终决策学习者 (Learner):</p><ul><li>Proposer: 提出提案 (Proposal)。Proposal信息包括提案编号 (Proposal ID) 和提议的值 (Value)。</li><li>Acceptor: 参与决策，回应Proposers的提案。收到Proposal后可以接受提案，若Proposal获得多数Acceptors的接受，则称该Proposal被批准。</li><li>Learner: 不参与决策，从Proposers&#x2F;Acceptors学习最新达成一致的提案(Value)。</li></ul><p>在多副本状态机中，每个副本同时具有Proposer、Acceptor、Learner三种角色。</p><h3 id="第一阶段-Prepare阶段"><a href="#第一阶段-Prepare阶段" class="headerlink" title="第一阶段: Prepare阶段"></a>第一阶段: Prepare阶段</h3><p>Proposer向Acceptors发出Prepare请求，Acceptors针对收到的Prepare请求进行Promise承诺。</p><p>Prepare: Proposer生成全局唯一且递增的Proposal ID (可使用时间戳加Server ID)，向所有Acceptors发送Prepare请求，这里无需携带提案内容，只携带Proposal ID即可。</p><p>Promise: Acceptors收到Prepare请求后，做出“两个承诺，一个应答”。</p><p>承诺1: 不再接受Proposal ID小于等于(注意: 这里是&lt;&#x3D; )当前请求的Prepare请求;</p><p>承诺2: 不再接受Proposal ID小于(注意: 这里是&lt; )当前请求的Propose请求;</p><p>应答: 不违背以前作出的承诺下，回复已经Accept过的提案中Proposal ID最大的那个提案的Value和Proposal ID，没有则返回空值。</p><h3 id="第二阶段-Accept阶段"><a href="#第二阶段-Accept阶段" class="headerlink" title="第二阶段: Accept阶段"></a>第二阶段: Accept阶段</h3><p>Proposer收到多数Acceptors承诺的Promise后，向Acceptors发出Propose请求，Acceptors针对收到的Propose请求进行Accept处理。</p><p>Propose: Proposer 收到多数Acceptors的Promise应答后，从应答中选择Proposal ID最大的提案的Value，作为本次要发起的提案。如果所有应答的提案Value均为空值，则可以自己随意决定提案Value。然后携带当前Proposal ID，向所有Acceptors发送Propose请求。</p><p>Accept: Acceptor收到Propose请求后，在不违背自己之前作出的承诺下，接受并持久化当前Proposal ID和提案Value。</p><h3 id="第三阶段-Learn阶段"><a href="#第三阶段-Learn阶段" class="headerlink" title="第三阶段: Learn阶段"></a>第三阶段: Learn阶段</h3><p>Proposer在收到多数Acceptors的Accept之后，标志着本次Accept成功，决议形成，将形成的决议发送给所有Learners。</p><h2 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h2><h3 id="角色-1"><a href="#角色-1" class="headerlink" title="角色"></a>角色</h3><p>Raft将系统中的角色分为领导者(Leader)、跟从者(Follower)和候选人(Candidate):</p><ul><li>Leader: 接受客户端请求，并向Follower同步请求日志，当日志同步到大多数节点上后告诉Follower提交日志。</li><li>Follower: 接受并持久化Leader同步的日志，在Leader告之日志可以提交之后，提交日志。</li><li>Candidate: Leader选举过程中的临时角色。</li></ul><p>Raft要求系统在任意时刻最多只有一个Leader，正常工作期间只有Leader和Followers。</p><p>Raft算法将时间分为一个个的任期(term)，每一个term的开始都是Leader选举。在成功选举Leader之后，Leader会在整个term内管理整个集群。如果Leader选举失败，该term就会因为没有Leader而结束。</p><h3 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h3><p>Raft 使用心跳(heartbeat)触发Leader选举。当服务器启动时，初始化为Follower。Leader向所有Followers周期性发送heartbeat。如果Follower在选举超时时间内没有收到Leader的heartbeat，就会等待一段随机的时间后发起一次Leader选举。</p><p>Follower将其当前term加一然后转换为Candidate。它首先给自己投票并且给集群中的其他服务器发送 RequestVote RPC (RPC细节参见八、Raft算法总结)。结果有以下三种情况:</p><ul><li>赢得了多数的选票，成功选举为Leader；</li><li>收到了Leader的消息，表示有其它服务器已经抢先当选了Leader；</li><li>没有服务器赢得多数的选票，Leader选举失败，等待选举时间超时后发起下一次选举。</li></ul><h3 id="ZAB-协议"><a href="#ZAB-协议" class="headerlink" title="ZAB 协议"></a>ZAB 协议</h3><p>ZAB 协议全称：Zookeeper Atomic Broadcast（Zookeeper 原子广播协议）。</p><p>Zookeeper 是一个为分布式应用提供高效且可靠的分布式协调服务。在解决分布式一致性方面，Zookeeper 并没有使用 Paxos ，而是采用了 ZAB 协议。</p><p>ZAB 协议定义：ZAB 协议是为分布式协调服务 Zookeeper 专门设计的一种支持 崩溃恢复 和 原子广播 协议。下面我们会重点讲这两个东西。</p><p>基于该协议，Zookeeper 实现了一种 主备模式 的系统架构来保持集群中各个副本之间数据一致性。具体如下图所示：</p><img src="/2023/08/17/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE3.png" class="" title="你好世界"><p>ZAB 协议的消息广播过程使用的是一个原子广播协议，类似一个 二阶段提交过程。对于客户端发送的写请求，全部由 Leader 接收，Leader 将请求封装成一个事务 Proposal，将其发送给所有 Follwer ，然后，根据所有 Follwer 的反馈，如果超过半数成功响应，则执行 commit 操作（先提交自己，再发送 commit 给所有 Follwer）。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>分布式</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>接雨水</title>
     <link href="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/"/>
     <url>/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/</url>

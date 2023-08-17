@@ -16,24 +16,26 @@
   <meta name="author" content="sunnylala">
   <meta name="keywords" content="">
   
-    <meta name="description" content="详见plantuml官网  时序图语法示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748@startuml uploadtitle vod上传&#x3D;&#x3D; 预上传 &#x3D;&#x3D;autonumbersdk -&gt; uploadapi: http post &quot;&#x2F;vod&#x2F;pre">
+    <meta name="description" content="按照列来计算首先，如果按照列来计算的话，宽度一定是1了，我们再把每一列的雨水的高度求出来就可以了。 可以看出每一列雨水的高度，取决于，该列 左侧最高的柱子和右侧最高的柱子中最矮的那个柱子的高度。    动态规划解法在上一节的双指针解法中，我们可以看到只要记录左边柱子的最高高度 和 右边柱子的最高高度，就可以计算当前位置的雨水面积，这就是通过列来计算。 当前列雨水面积：min(左边柱子的最高高度，记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="plantuml工具画流程图">
-<meta property="og:url" content="https://sunnylala.github.io/2023/08/17/plantuml%E5%B7%A5%E5%85%B7%E7%94%BB%E6%B5%81%E7%A8%8B%E5%9B%BE/index.html">
+<meta property="og:title" content="接雨水">
+<meta property="og:url" content="https://sunnylala.github.io/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/index.html">
 <meta property="og:site_name" content="瀚宇求索">
-<meta property="og:description" content="详见plantuml官网  时序图语法示例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748@startuml uploadtitle vod上传&#x3D;&#x3D; 预上传 &#x3D;&#x3D;autonumbersdk -&gt; uploadapi: http post &quot;&#x2F;vod&#x2F;pre">
+<meta property="og:description" content="按照列来计算首先，如果按照列来计算的话，宽度一定是1了，我们再把每一列的雨水的高度求出来就可以了。 可以看出每一列雨水的高度，取决于，该列 左侧最高的柱子和右侧最高的柱子中最矮的那个柱子的高度。    动态规划解法在上一节的双指针解法中，我们可以看到只要记录左边柱子的最高高度 和 右边柱子的最高高度，就可以计算当前位置的雨水面积，这就是通过列来计算。 当前列雨水面积：min(左边柱子的最高高度，记">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://sunnylala.github.io/2023/08/17/plantuml%E5%B7%A5%E5%85%B7%E7%94%BB%E6%B5%81%E7%A8%8B%E5%9B%BE/img.png">
-<meta property="article:published_time" content="2023-08-17T09:17:49.000Z">
-<meta property="article:modified_time" content="2023-08-17T09:40:15.814Z">
+<meta property="og:image" content="https://sunnylala.github.io/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE1.png">
+<meta property="og:image" content="https://sunnylala.github.io/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE2.png">
+<meta property="og:image" content="https://sunnylala.github.io/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE3.png">
+<meta property="article:published_time" content="2023-08-17T10:21:08.000Z">
+<meta property="article:modified_time" content="2023-08-17T10:24:46.490Z">
 <meta property="article:author" content="sunnylala">
-<meta property="article:tag" content="工具">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://sunnylala.github.io/2023/08/17/plantuml%E5%B7%A5%E5%85%B7%E7%94%BB%E6%B5%81%E7%A8%8B%E5%9B%BE/img.png">
+<meta name="twitter:image" content="https://sunnylala.github.io/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE1.png">
   
   
   
-  <title>plantuml工具画流程图 - 瀚宇求索</title>
+  <title>接雨水 - 瀚宇求索</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="plantuml工具画流程图"></span>
+            <span id="subtitle" data-typed-text="接雨水"></span>
           
         </div>
 
@@ -239,8 +241,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-08-17 17:17" pubdate>
-          2023年8月17日 下午
+        <time datetime="2023-08-17 18:21" pubdate>
+          2023年8月17日 晚上
         </time>
       </span>
     
@@ -251,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          476 字
         
       </span>
     
@@ -262,7 +264,7 @@
         
         
         
-          12 分钟
+          4 分钟
         
       </span>
     
@@ -307,18 +309,23 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">plantuml工具画流程图</h1>
+            <h1 id="seo-header">接雨水</h1>
             
             
               <div class="markdown-body">
                 
-                <blockquote>
-<p>详见<a target="_blank" rel="noopener" href="https://plantuml.com/zh/">plantuml官网</a></p>
-</blockquote>
-<h2 id="时序图语法示例"><a href="#时序图语法示例" class="headerlink" title="时序图语法示例"></a>时序图语法示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs Plantuml">@startuml upload<br><br>title vod上传<br><br>== 预上传 ==<br>autonumber<br><br>sdk -&gt; uploadapi: http post &quot;/vod/preupload&quot;<br><br>alt video类型资源<br>uploadapi -&gt; mediamanager: rpc GenerateVID 生成ID<br>mediamanager-&gt; Redis: incr自增ID<br>mediamanager-&gt; uploadapi: 规则:&#123;region：2位&#125;_&#123;uuid：16位&#125;_&#123;schemaIndex:本地配置000+dbIdx:自增ID取后三位&#125;\nDB号:&#123;schemaIndex:本地配置000+dbIdx:自增ID取后三位&#125;\n自增ID：DB记录当前序列号，用redis缓存。\n主备容灾：10s定时同步redis最新的序列号到mysql。<br>else image、audio资源<br>uploadapi -&gt; mediamanager: rpc GenerateMid 生成ID<br>mediamanager-&gt; Redis: sonyflake生成分布式唯一ID\nredis保存<br>mediamanager-&gt; uploadapi: 返回ID<br>end<br><br>uploadapi -&gt; Strategyservice: rpc GetStrategyInfo获取调度策略<br>Strategyservice -&gt; Strategyservice: 查询调度策略配置获取CDN域名<br>Strategyservice-&gt; uploadapi:返回CDN域名<br>uploadapi -&gt;uploadapi: 根据serviceOrder获取Token及其他信息,如果未取到结果，兜底返回网宿云<br>uploadapi -&gt; sdk: 返回云服务列表<br>sdk -&gt; endpointSDK:定期拉取策略配置，获取IP直出规则，并进行请求拦截改造操作（domain、host替换等）<br>sdk -&gt; sdk:最终上传resp<br><br><br>== SDK上传 ==<br>autonumber<br>sdk-&gt;cloud:文件传输<br>cloud --&gt; uss:异步回迁<br><br>== 回报结果，触发视频处理流程 ==<br>autonumber<br>sdk -&gt; uploadapi: http post &quot;/vod/reportupload&quot;<br>note right <br>上报质量<br>end note<br><br>uploadapi -&gt; mediamanager: 创建媒资信息落库\nrpc CreateVideoInfoWithFormat/CreateMediaInfoAndFormat<br>mediamanager -&gt; mysql: insert video_infos_tab_\n insert video_format_infos_tab_<br>mediamanager -&gt; redis: redis处理<br>uploadapi -&gt; vodprocess: rpc SubmitFlowTask提交流程任务<br>uploadapi -&gt; sdk: 返回结果<br><br><br>@enduml<br></code></pre></td></tr></table></figure>
+                <h2 id="按照列来计算"><a href="#按照列来计算" class="headerlink" title="按照列来计算"></a>按照列来计算</h2><p>首先，如果按照列来计算的话，宽度一定是1了，我们再把每一列的雨水的高度求出来就可以了。</p>
+<p>可以看出每一列雨水的高度，取决于，该列 左侧最高的柱子和右侧最高的柱子中最矮的那个柱子的高度。</p>
+<img src="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE1.png" srcset="/img/loading.gif" lazyload class="" title="你好世界">
+<img src="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE2.png" srcset="/img/loading.gif" lazyload class="" title="你好世界">
 
-<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><img src="/2023/08/17/plantuml%E5%B7%A5%E5%85%B7%E7%94%BB%E6%B5%81%E7%A8%8B%E5%9B%BE/img.png" srcset="/img/loading.gif" lazyload class="" title="你好世界">
-
+<h2 id="动态规划解法"><a href="#动态规划解法" class="headerlink" title="动态规划解法"></a>动态规划解法</h2><p>在上一节的双指针解法中，我们可以看到只要记录左边柱子的最高高度 和 右边柱子的最高高度，就可以计算当前位置的雨水面积，这就是通过列来计算。</p>
+<p>当前列雨水面积：min(左边柱子的最高高度，记录右边柱子的最高高度) - 当前柱子高度。</p>
+<p>为了得到两边的最高高度，使用了双指针来遍历，每到一个柱子都向两边遍历一遍，这其实是有重复计算的。我们把每一个位置的左边最高高度记录在一个数组上（maxLeft），右边最高高度记录在一个数组上（maxRight）。这样就避免了重复计算，这就用到了动态规划。</p>
+<p>当前位置，左边的最高高度是前一个位置的左边最高高度和本高度的最大值。</p>
+<p>即从左向右遍历：maxLeft[i] &#x3D; max(height[i], maxLeft[i - 1]);</p>
+<p>从右向左遍历：maxRight[i] &#x3D; max(height[i], maxRight[i + 1]);</p>
+<img src="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE3.png" srcset="/img/loading.gif" lazyload class="" title="你好世界">
                 
               </div>
             
@@ -351,7 +358,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%B7%A5%E5%85%B7/" class="print-no-link">#工具</a>
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
       
     </div>
   
@@ -363,8 +370,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>plantuml工具画流程图</div>
-      <div>https://sunnylala.github.io/2023/08/17/plantuml工具画流程图/</div>
+      <div>接雨水</div>
+      <div>https://sunnylala.github.io/2023/08/17/接雨水/</div>
     </div>
     <div class="license-meta">
       
@@ -408,18 +415,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" title="回溯算法">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">回溯算法</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/17/lru/" title="lru">
-                        <span class="hidden-mobile">lru</span>
+                      <a href="/2023/08/17/%E5%8D%95%E8%B0%83%E6%A0%88/" title="单调栈">
+                        <span class="hidden-mobile">单调栈</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

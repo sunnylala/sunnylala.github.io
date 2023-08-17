@@ -4,6 +4,81 @@
   
   
   <entry>
+    <title>接雨水</title>
+    <link href="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/"/>
+    <url>/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/</url>
+    
+    <content type="html"><![CDATA[<h2 id="按照列来计算"><a href="#按照列来计算" class="headerlink" title="按照列来计算"></a>按照列来计算</h2><p>首先，如果按照列来计算的话，宽度一定是1了，我们再把每一列的雨水的高度求出来就可以了。</p><p>可以看出每一列雨水的高度，取决于，该列 左侧最高的柱子和右侧最高的柱子中最矮的那个柱子的高度。</p><img src="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE1.png" class="" title="你好世界"><img src="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE2.png" class="" title="你好世界"><h2 id="动态规划解法"><a href="#动态规划解法" class="headerlink" title="动态规划解法"></a>动态规划解法</h2><p>在上一节的双指针解法中，我们可以看到只要记录左边柱子的最高高度 和 右边柱子的最高高度，就可以计算当前位置的雨水面积，这就是通过列来计算。</p><p>当前列雨水面积：min(左边柱子的最高高度，记录右边柱子的最高高度) - 当前柱子高度。</p><p>为了得到两边的最高高度，使用了双指针来遍历，每到一个柱子都向两边遍历一遍，这其实是有重复计算的。我们把每一个位置的左边最高高度记录在一个数组上（maxLeft），右边最高高度记录在一个数组上（maxRight）。这样就避免了重复计算，这就用到了动态规划。</p><p>当前位置，左边的最高高度是前一个位置的左边最高高度和本高度的最大值。</p><p>即从左向右遍历：maxLeft[i] &#x3D; max(height[i], maxLeft[i - 1]);</p><p>从右向左遍历：maxRight[i] &#x3D; max(height[i], maxRight[i + 1]);</p><img src="/2023/08/17/%E6%8E%A5%E9%9B%A8%E6%B0%B4/%E6%88%AA%E5%9B%BE3.png" class="" title="你好世界">]]></content>
+    
+    
+    <categories>
+      
+      <category>编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>单调栈</title>
+    <link href="/2023/08/17/%E5%8D%95%E8%B0%83%E6%A0%88/"/>
+    <url>/2023/08/17/%E5%8D%95%E8%B0%83%E6%A0%88/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>单调栈通常是一维数组，要寻找任一个元素的右边或者左边第一个比自己大或者小的元素的位置，此时我们就要想到可以用单调栈了。<br>时间复杂度为O(n)。</p></blockquote><p>例如本题其实就是找找到一个元素右边第一个比自己大的元素。此时就应该想到用单调栈了。</p><p>那么单调栈的原理是什么呢？为什么时间复杂度是O(n)就可以找到每一个元素的右边第一个比它大的元素位置呢？</p><p>单调栈的本质是空间换时间，因为在遍历的过程中需要用一个栈来记录右边第一个比当前元素高的元素，优点是只需要遍历一次。</p><p>在使用单调栈的时候首先要明确如下几点：</p><ol><li>单调栈里存放的元素是什么？单调栈里只需要存放元素的下标i就可以了，如果需要使用对应的元素，直接T[i]就可以获取。</li><li>单调栈里元素是递增呢？ 还是递减呢？注意一下顺序为 从栈头到栈底的顺序，因为单纯的说从左到右或者从前到后，不说栈头朝哪个方向的话，大家一定会越看越懵。这里我们要使用递增循序（再强调一下是指从栈头到栈底的顺序），因为只有递增的时候，加入一个元素i，才知道栈顶元素在数组中右面第一个比栈顶元素大的元素是i。</li></ol><img src="/2023/08/17/%E5%8D%95%E8%B0%83%E6%A0%88/%E6%88%AA%E5%9B%BE.png" class="" title="你好世界">]]></content>
+    
+    
+    <categories>
+      
+      <category>编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>回溯算法</title>
+    <link href="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/"/>
+    <url>/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<p>回溯法也可以叫做回溯搜索法，它是一种搜索的方式。回溯是递归的副产品，只要有递归就会有回溯。虽然回溯法很难，很不好理解，但是回溯法并不是什么高效的算法。因为回溯的本质是穷举，穷举所有可能，然后选出我们想要的答案，如果想让回溯法高效一些，可以加一些剪枝的操作，但也改不了回溯法就是穷举的本质。回溯法，一般可以解决如下几种问题：</p><ul><li>组合问题：N个数里面按一定规则找出k个数的集合</li><li>切割问题：一个字符串按一定规则有几种切割方式</li><li>子集问题：一个N个数的集合里有多少符合条件的子集</li><li>排列问题：N个数按一定规则全排列，有几种排列方式</li><li>棋盘问题：N皇后，解数独等等</li></ul><h2 id="如何理解回溯法"><a href="#如何理解回溯法" class="headerlink" title="如何理解回溯法"></a>如何理解回溯法</h2><p>回溯法解决的问题都可以抽象为树形结构，因为回溯法解决的都是在集合中递归查找子集，集合的大小就构成了树的宽度，递归的深度，都构成的树的深度。递归就要有终止条件，所以必然是一棵高度有限的树（N叉树）。</p><h2 id="回溯法模板"><a href="#回溯法模板" class="headerlink" title="回溯法模板"></a>回溯法模板</h2><p>这份模板很重要，后面做回溯法的题目都靠它了！</p><img src="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE.png" class="" title="你好世界"><p>for循环就是遍历集合区间，可以理解一个节点有多少个孩子，这个for循环就执行多少次。backtracking这里自己调用自己，实现递归。<br>for循环可以理解是横向遍历，backtracking（递归）就是纵向遍历，这样就把这棵树全遍历完了，一般来说，搜索叶子节点就是找的其中一个结果了。<br>分析完过程，回溯算法模板框架如下：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">backtracking</span><span class="hljs-params">(参数)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (终止条件) &#123;<br>        存放结果;<br>        <span class="hljs-keyword">return</span>; <br>    &#125;<br>    <span class="hljs-keyword">for</span> (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) &#123;<br>        处理节点;<br>        <span class="hljs-built_in">backtracking</span>(路径，选择列表); <span class="hljs-comment">// 递归</span><br>        回溯，撤销处理结果<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="子集"><a href="#子集" class="headerlink" title="子集"></a>子集</h2><img src="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE1.png" class="" title="你好世界"><img src="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE2.png" class="" title="你好世界"><h2 id="递增子序列"><a href="#递增子序列" class="headerlink" title="递增子序列"></a>递增子序列</h2><img src="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE3.png" class="" title="你好世界"><h2 id="全排列"><a href="#全排列" class="headerlink" title="全排列"></a>全排列</h2><img src="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE4.png" class="" title="你好世界"><img src="/2023/08/17/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/%E6%88%AA%E5%9B%BE5.png" class="" title="你好世界">]]></content>
+    
+    
+    <categories>
+      
+      <category>编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>plantuml工具画流程图</title>
     <link href="/2023/08/17/plantuml%E5%B7%A5%E5%85%B7%E7%94%BB%E6%B5%81%E7%A8%8B%E5%9B%BE/"/>
     <url>/2023/08/17/plantuml%E5%B7%A5%E5%85%B7%E7%94%BB%E6%B5%81%E7%A8%8B%E5%9B%BE/</url>
